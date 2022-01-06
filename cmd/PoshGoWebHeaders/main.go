@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 )
@@ -14,7 +15,11 @@ func main() {
 	}
 
 	printHeader(w)
-	getHeaders(w)
+
+	err := getHeaders(w)
+	if err != nil {
+		return
+	}
 }
 
 type webData struct {
@@ -27,9 +32,11 @@ func printHeader(data webData) {
 	fmt.Printf("URL: %s\n", data.url)
 	fmt.Printf("HTTP Method: %s\n", data.method)
 	fmt.Println("================")
+
+	return
 }
 
-// getHeaders retreives the header values of a supplied website and HTTP Method.
+// getHeaders retrieves the header values of a supplied website and HTTP Method.
 // It displays the content of the headers to the screen, and returns nil.
 func getHeaders(data webData) error {
 	client := &http.Client{
@@ -39,17 +46,22 @@ func getHeaders(data webData) error {
 	// req variable holds an HTTP request object. It takes the HTTP Method, and a URL as its parameters.
 	req, err := http.NewRequest(data.method, data.url, nil)
 	if err != nil {
-		return fmt.Errorf("Error received %s", err.Error())
+		return fmt.Errorf("error received %s", err.Error())
 	}
 
 	// res variable holds an HTTP response object. It takes the request object.
 	res, err := client.Do(req)
 	if err != nil {
-		return fmt.Errorf("Error received %s", err.Error())
+		return fmt.Errorf("error received %s", err.Error())
 	}
 
 	// This closes the response stream.
-	defer res.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			fmt.Printf("Cannot close the reader. Error: %s", err.Error())
+		}
+	}(res.Body)
 
 	contentTypesValues := res.Header.Get("content-type")
 	fmt.Printf("Content Type: %s\n", contentTypesValues)
