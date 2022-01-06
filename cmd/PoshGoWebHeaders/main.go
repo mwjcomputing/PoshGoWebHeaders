@@ -52,7 +52,13 @@ func getHeaders(data webData) error {
 	defer res.Body.Close()
 
 	contentTypesValues := res.Header.Get("content-type")
-	fmt.Printf("Content Type: %s\n\n", contentTypesValues)
+	fmt.Printf("Content Type: %s\n", contentTypesValues)
+
+	// valXFrameOptions gets the X-Frame-Options header from the web request.
+	valXFrameOptions := res.Header.Get("X-Frame-Options")
+	if "" != valXFrameOptions {
+		fmt.Printf("X-Frame-Options: %s\n", valXFrameOptions)
+	}
 
 	return nil
 }
