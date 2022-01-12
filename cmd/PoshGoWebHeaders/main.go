@@ -63,6 +63,10 @@ func getHeaders(data webData) error {
 		}
 	}(res.Body)
 
+	var (
+		valNotFound = "Value not found"
+	)
+
 	contentTypesValues := res.Header.Get("content-type")
 	fmt.Printf("Content Type: %s\n", contentTypesValues)
 
@@ -70,7 +74,15 @@ func getHeaders(data webData) error {
 	valXFrameOptions := res.Header.Get("X-Frame-Options")
 	if "" != valXFrameOptions {
 		fmt.Printf("X-Frame-Options: %s\n", valXFrameOptions)
+	} else {
+		fmt.Printf("X-Frame-Options: %s\n", valNotFound)
 	}
 
+	valXSSProtection := res.Header.Get("X-XSS-Protection")
+	if "" != valXSSProtection {
+		fmt.Printf("X-XSS-Protection: %s\n", valXSSProtection)
+	} else {
+		fmt.Printf("X-XSS-Protection: %s\n", valNotFound)
+	}
 	return nil
 }
