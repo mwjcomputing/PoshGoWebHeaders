@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -9,9 +10,13 @@ import (
 
 func main() {
 
+	urlPtr := flag.String("url", "https://www.mwjcomputing.com", "URL to check")
+	methodPtr := flag.String("method", "https://www.mwjcomputing.com", "HTTP Method to use")
+	flag.Parse()
+
 	w := webData{
-		url:    "https://www.mwjcomputing.com",
-		method: "GET",
+		url:    *urlPtr,
+		method: *methodPtr,
 	}
 
 	printHeader(w)
