@@ -11,7 +11,7 @@ import (
 func main() {
 
 	urlPtr := flag.String("url", "https://www.mwjcomputing.com", "URL to check")
-	methodPtr := flag.String("method", "https://www.mwjcomputing.com", "HTTP Method to use")
+	methodPtr := flag.String("method", "GET", "HTTP Method to use")
 	flag.Parse()
 
 	w := webData{
