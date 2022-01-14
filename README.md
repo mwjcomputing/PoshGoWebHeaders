@@ -5,6 +5,7 @@
 ## Web Header Value Enumeration
 
 * Content-Type
+* Strict-Transport-Security
 * X-Frame-Options
 * X-XSS-Protection
 
