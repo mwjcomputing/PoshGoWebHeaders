@@ -75,6 +75,13 @@ func getHeaders(data webData) error {
 	contentTypesValues := res.Header.Get("content-type")
 	fmt.Printf("Content Type: %s\n", contentTypesValues)
 
+	valStrictTransport := res.Header.Get("Strict-Transport-Security")
+	if "" != valStrictTransport {
+		fmt.Printf("Strict-Transport-Security: %s\n", valStrictTransport)
+	} else {
+		fmt.Printf("Strict-Transport-Security: %s\n", valNotFound)
+	}
+
 	// valXFrameOptions gets the X-Frame-Options header from the web request.
 	valXFrameOptions := res.Header.Get("X-Frame-Options")
 	if "" != valXFrameOptions {
